@@ -1,8 +1,9 @@
 {
   "name": "lea-webhook",
   "version": "1.0.0",
-  "description": "Lea Chatbot test",
-  "main": "index.js",
+  "description": "Lea Chatbot test  ",
+  "main": "server.js",
+  "engines":{"node": "8.9.3"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
