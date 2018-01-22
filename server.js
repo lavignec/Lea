@@ -5,7 +5,8 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
-  request = require('request');
+
+const request = require('request');
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 443, () => console.log('webhook is listening'));
@@ -96,9 +97,33 @@ function handleMessage(sender_psid, received_message) {
   
     // Gets the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
-  
+    response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Is this the right picture?",
+            "subtitle": "Tap a button to answer.",
+            "image_url": attachment_url,
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Yes!",
+                "payload": "yes",
+              },
+              {
+                "type": "postback",
+                "title": "No!",
+                "payload": "no",
+              }
+            ],
+          }]
+        }
+      }
+    }
   } 
-  
+
   // Sends the response message
   callSendAPI(sender_psid, response);   
 
@@ -111,6 +136,8 @@ function handlePostback(sender_psid, received_postback) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
+
+  const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
   // Construct the message body
   let request_body = {
