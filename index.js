@@ -5,7 +5,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
-
+s
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 443, () => console.log('webhook is listening'));
 
@@ -24,6 +24,11 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhookEvent = entry.messaging[0];
       console.log(webhookEvent);
+
+      // Get the sender PSID
+      let sender_psid = webhook_event.sender.id;
+      console.log('Sender PSID: ' + sender_psid);
+      
     });
 
     // Returns a '200 OK' response to all requests
@@ -40,8 +45,8 @@ app.post('/webhook', (req, res) => {
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = "EAAduxlZCaGuIBAEk14IO1MIv1yKEk1GlUMugBKZBOYc8gM4IZAsJEPZAyDkZA7dNSei7WOwpgLivkw3uingcEmtZAaqcHZACRKNCVqCD14sMbwEnNhIHxZAtp7Gz3lK8LcZARsUsdTDAKjn1lkFJyKgCDUwbmvU51aCvC74suVGsDagZDZD"
-    
+  const VERIFY_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
   // Parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
@@ -63,3 +68,17 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
+
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
