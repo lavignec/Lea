@@ -141,7 +141,49 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "Thanks!" }
   } else if (payload === 'no') {
     response = { "text": "Oops, try sending another image." }
-  }
+  } else if (payload === 'get_started') {
+    response = {
+      "text":"Hello there! I'm Léa. What do you want to do?",
+        "buttons":[
+          {
+            "type":"postback",
+            "title": "Looking for a flat",
+            "payload": "flat"
+          },
+          {
+            "type":"postback",
+            "title": "I need inspiration",
+            "payload": "inspiration"
+          },
+          {
+            "type":"postback",
+            "title": "Lookingf for products",
+            "payload": "products"
+          },
+          {
+            "type":"postback",
+            "title": "I'm gonna move in and need help with it",
+            "payload": "moving"
+          },
+          {
+            "type":"postback",
+            "title": "I'm refurbishing my home",
+            "payload": "refurb"
+          }
+        ]
+    }
+  } else if (payload === 'flat') {
+    response = { "text": "You want to find a flat. Check on athome.lu" }
+  } else if (payload === 'inspiration') {
+    response = { "text": "Inpiration, Check on intagram" }
+  } else if (payload === 'products') {
+    response = { "text": "products" }
+  } else if (payload === 'moving') {
+    response = { "text": "Congrats, you're moving!" }
+  } else if (payload === 'refurb') {
+    response = { "text": "Refurbishing a room or the entire home?" }
+  } else {
+    response = { "text": "I'm currently under developpment so I'm not yet fully capabeto help you at the moment." }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
   
